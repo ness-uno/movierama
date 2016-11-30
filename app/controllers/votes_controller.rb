@@ -16,7 +16,7 @@ class VotesController < ApplicationController
   private
 
   def _voter
-    VotingBooth.new(current_user, _movie)
+    PollingStation.new(user: current_user, movie: _movie)
   end
 
   def _type
