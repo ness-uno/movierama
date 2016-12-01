@@ -1,5 +1,5 @@
 class PollingStation
-  def initialize(user: , movie: )
+  def initialize(user:, movie:)
     @user = user
     @movie = movie
   end
@@ -7,6 +7,7 @@ class PollingStation
   def vote(like_or_hate)
     assert_valid_vote!(like_or_hate)
     _voting_booth.vote(like_or_hate)
+    _notifier.notify(like_or_hate)
   end
 
   def unvote
@@ -25,5 +26,9 @@ class PollingStation
 
   def _voting_booth
     VotingBooth.new(user, movie)
+  end
+
+  def _notifier
+    Notifier.new(user: user, movie: movie)
   end
 end
