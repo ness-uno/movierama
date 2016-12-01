@@ -1,23 +1,19 @@
 class UserMailer < ActionMailer::Base
   default from: "from@example.com"
 
-  def like_hate_email(email_params)
-    assert_valid_action!(email_params.action)
+  def preference_email(email_params)
     @recipient_name = email_params.recipient_name
     @user_name = email_params.user_name
     @movie_title = email_params.movie_title
 
+    vote = email_params.preference.vote.to_s
+    vote_for_subject = vote.pluralize
+
     mail(
       to: email_params.recipient_email,
-      subject: "Find out who #{email_params.action.to_s.pluralize} your movie",
-      template_name: "#{email_params.action}_email"
+      subject: "Find out who #{vote_for_subject} your movie",
+      template_name: "#{vote}_email"
     )
-  end
-
-  private
-
-  def assert_valid_action!(action)
-    raise ArgumentError.new("`#{action}` is not a valid action") unless %i( like hate ).include?(action)
   end
 
 end

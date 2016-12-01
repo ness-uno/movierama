@@ -11,27 +11,17 @@ RSpec.describe Notifier do
 
   describe '#notify' do
     let(:email_params) { double('EmailParams') }
-    let(:action) { :like }
+    let(:preference) { double('Preference') }
 
     before do
-      allow(LikeHateEmailParams).to receive(:build)
-      .with(user: user, movie: movie, action: action)
+      allow(PreferenceEmailParams).to receive(:build)
+      .with(user: user, movie: movie, preference: preference)
       .and_return(email_params)
     end
 
-    context 'when an user likes a movie' do
-      it 'adds a like email to the queue' do
-        expect(LikeHateEmailWorker).to receive(:perform_async).with(email_params)
-        subject.notify(action)
-      end
-    end
-
-    context 'when an user does not like a movie' do
-      let(:action) { :hate }
-      it 'adds a hate email to the queue' do
-        expect(LikeHateEmailWorker).to receive(:perform_async).with(email_params)
-        subject.notify(action)
-      end
+    it 'adds a like email to the queue' do
+      expect(PreferenceEmailWorker).to receive(:perform_async).with(email_params)
+      subject.notify(preference)
     end
   end
 end

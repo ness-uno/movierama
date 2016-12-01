@@ -6,7 +6,7 @@ RSpec.describe PollingStation do
 
   let(:user) { double('User') }
   let(:movie) { double('Movie') }
-  let(:vote) { :like }
+  let(:preference) { double('Preference') }
 
   before do
     allow(VotingBooth).to receive(:new).with(user, movie).and_return(the_voting_booth)
@@ -16,12 +16,12 @@ RSpec.describe PollingStation do
   subject { described_class.new(user: user, movie: movie) }
 
   it 'votes in the voting booth' do
-    expect(the_voting_booth).to receive(:vote).with(vote)
-    subject.vote(vote)
+    expect(the_voting_booth).to receive(:vote).with(preference)
+    subject.vote(preference)
   end
 
-  it 'notifies the user about the vote' do
-    expect(the_notifier).to receive(:notify).with(vote)
-    subject.vote(vote)
+  it 'notifies the user about the user preference' do
+    expect(the_notifier).to receive(:notify).with(preference)
+    subject.vote(preference)
   end
 end

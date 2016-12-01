@@ -2,7 +2,7 @@ class VotesController < ApplicationController
   def create
     authorize! :vote, _movie
 
-    _voter.vote(_type)
+    _voter.vote(_preference)
     redirect_to root_path, notice: 'Vote cast'
   end
 
@@ -19,10 +19,10 @@ class VotesController < ApplicationController
     PollingStation.new(user: current_user, movie: _movie)
   end
 
-  def _type
+  def _preference
     case params.require(:t)
-    when 'like' then :like
-    when 'hate' then :hate
+    when 'like' then Preference.for(:like)
+    when 'hate' then Preference.for(:hate)
     else raise
     end
   end

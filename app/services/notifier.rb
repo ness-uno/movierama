@@ -4,24 +4,24 @@ class Notifier
     @movie = movie
   end
 
-  def notify(like_or_hate)
-    email_params = email_params(like_or_hate)
-    deliver_like_email(email_params)
+  def notify(preference)
+    email_params = email_params(preference)
+    deliver_preference_email(email_params)
   end
 
   private
 
   attr_reader :recipient, :user, :movie
 
-  def email_params(like_or_hate)
-    LikeHateEmailParams.build(
+  def email_params(preference)
+    PreferenceEmailParams.build(
       user: user,
       movie: movie,
-      action: like_or_hate
+      preference: preference
     )
   end
 
-  def deliver_like_email(email_params)
-    LikeHateEmailWorker.perform_async(email_params)
+  def deliver_preference_email(email_params)
+    PreferenceEmailWorker.perform_async(email_params)
   end
 end

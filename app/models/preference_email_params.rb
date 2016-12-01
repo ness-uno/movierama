@@ -1,13 +1,13 @@
-class LikeHateEmailParams < Struct.new(:recipient_email, :recipient_name, :user_name, :movie_title, :action)
+class PreferenceEmailParams < Struct.new(:recipient_email, :recipient_name, :user_name, :movie_title, :preference)
   class << self
-    def build(user:, movie:, action:)
+    def build(user:, movie:, preference:)
       new.tap do |email_params|
         recipient = movie.user
         email_params.recipient_email = recipient.email
         email_params.recipient_name = recipient.name
         email_params.user_name = user.name
         email_params.movie_title = movie.title
-        email_params.action = action
+        email_params.preference = preference
       end
     end
 
@@ -17,7 +17,8 @@ class LikeHateEmailParams < Struct.new(:recipient_email, :recipient_name, :user_
         email_params.recipient_name = json['recipient_name']
         email_params.user_name = json['user_name']
         email_params.movie_title = json['movie_title']
-        email_params.action = json['action'].to_sym
+        vote = json['preference'].to_sym
+        email_params.preference = Preference.for(vote)
       end
     end
   end
@@ -28,7 +29,7 @@ class LikeHateEmailParams < Struct.new(:recipient_email, :recipient_name, :user_
       recipient_name: recipient_name,
       user_name: user_name,
       movie_title: movie_title,
-      action: action,
+      preference: preference.vote,
     }.to_json
   end
 end

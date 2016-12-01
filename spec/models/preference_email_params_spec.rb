@@ -1,16 +1,16 @@
 require 'rails_helper'
 
-RSpec.describe LikeHateEmailParams do
+RSpec.describe PreferenceEmailParams do
   describe '.build' do
     let(:movie) { double('Movie', user: author, title: 'Matrix') }
     let(:author) { double('User', email: 'author@example.com', name: 'Luigi') }
     let(:user) { double('User', name: 'Mario') }
-    let(:action) { :like }
+    let(:preference) { :like }
 
-    subject { described_class.build(user: user, movie: movie, action: action) }
+    subject { described_class.build(user: user, movie: movie, preference: preference) }
 
     it 'returns a LikeHateEmailParams' do
-      expect(subject).to be_a(LikeHateEmailParams)
+      expect(subject).to be_a(PreferenceEmailParams)
     end
 
     it 'sets properties based on the input' do
@@ -18,17 +18,17 @@ RSpec.describe LikeHateEmailParams do
       expect(subject.recipient_name).to eq(author.name)
       expect(subject.user_name).to eq(user.name)
       expect(subject.movie_title).to eq(movie.title)
-      expect(subject.action).to eq(action)
+      expect(subject.preference).to eq(preference)
     end
   end
 
   describe '.from_json' do
-    let(:json_string) { "{\"recipient_email\":\"author@example.com\",\"recipient_name\":\"Luigi\",\"user_name\":\"Mario\",\"movie_title\":\"Matrix\",\"action\":\"like\"}" }
+    let(:json_string) { "{\"recipient_email\":\"author@example.com\",\"recipient_name\":\"Luigi\",\"user_name\":\"Mario\",\"movie_title\":\"Matrix\",\"preference\":\"like\"}" }
     let(:json) { JSON.parse(json_string) }
     subject { described_class.from_json(json) }
 
     it 'returns a LikeHateEmailParams' do
-      expect(subject).to be_a(LikeHateEmailParams)
+      expect(subject).to be_a(PreferenceEmailParams)
     end
 
     it 'sets properties based on the input' do
@@ -36,7 +36,7 @@ RSpec.describe LikeHateEmailParams do
       expect(subject.recipient_name).to eq('Luigi')
       expect(subject.user_name).to eq('Mario')
       expect(subject.movie_title).to eq('Matrix')
-      expect(subject.action).to eq(:like)
+      expect(subject.preference).to be_like
     end
 
     describe '#to_json' do
@@ -44,9 +44,9 @@ RSpec.describe LikeHateEmailParams do
       let(:recipient_name) { 'Luigi' }
       let(:user_name) { 'Mario' }
       let(:movie_title) { 'Matrix' }
-      let(:action) { :like }
+      let(:preference) { double('Preference', vote: :like) }
 
-      let(:params) { described_class.new(recipient_email, recipient_name, user_name, movie_title, action) }
+      let(:params) { described_class.new(recipient_email, recipient_name, user_name, movie_title, preference) }
 
       subject { JSON.parse(params.to_json) }
 
@@ -55,7 +55,7 @@ RSpec.describe LikeHateEmailParams do
         expect(subject['recipient_name']).to eq('Luigi')
         expect(subject['user_name']).to eq('Mario')
         expect(subject['movie_title']).to eq('Matrix')
-        expect(subject['action']).to eq('like')
+        expect(subject['preference']).to eq('like')
       end
     end
   end
