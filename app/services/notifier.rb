@@ -4,8 +4,8 @@ class Notifier
     @movie = movie
   end
 
-  def notify(like_or_dislike)
-    email_params = email_params(like_or_dislike)
+  def notify(like_or_hate)
+    email_params = email_params(like_or_hate)
     deliver_like_email(email_params)
   end
 
@@ -13,11 +13,11 @@ class Notifier
 
   attr_reader :recipient, :user, :movie
 
-  def email_params(like_or_dislike)
+  def email_params(like_or_hate)
     LikeHateEmailParams.build(
       user: user,
       movie: movie,
-      action: like_or_dislike
+      action: like_or_hate
     )
   end
 

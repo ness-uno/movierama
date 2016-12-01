@@ -11,7 +11,7 @@ RSpec.describe UserMailer do
       recipient_email: 'test@example.com',
       recipient_name: 'Mario',
       user_name: 'Luigi',
-      movie_name: 'Super Mario Bros.',
+      movie_title: 'Super Mario Bros.',
       action: action,
     )
   end
@@ -39,7 +39,7 @@ RSpec.describe UserMailer do
 
       it { expect(subject).to have_body_text(/Hi #{email_params.recipient_name}/) }
 
-      it { expect(subject).to have_body_text(/#{email_params.user_name} really likes `#{email_params.movie_name}`/) }
+      it { expect(subject).to have_body_text(/#{email_params.user_name} really likes `#{email_params.movie_title}`/) }
     end
 
     context 'when an user hates a movie' do
@@ -49,7 +49,7 @@ RSpec.describe UserMailer do
 
       it { expect(subject).to have_body_text(/Hi #{email_params.recipient_name}/) }
 
-      it { expect(subject).to have_body_text(/#{email_params.user_name} really hates `#{email_params.movie_name}`/) }
+      it { expect(subject).to have_body_text(/#{email_params.user_name} really hates `#{email_params.movie_title}`/) }
     end
 
   end

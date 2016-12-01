@@ -5,7 +5,7 @@ class UserMailer < ActionMailer::Base
     assert_valid_action!(email_params.action)
     @recipient_name = email_params.recipient_name
     @user_name = email_params.user_name
-    @movie_name = email_params.movie_name
+    @movie_title = email_params.movie_title
 
     mail(
       to: email_params.recipient_email,

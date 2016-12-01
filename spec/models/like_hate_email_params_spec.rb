@@ -17,13 +17,13 @@ RSpec.describe LikeHateEmailParams do
       expect(subject.recipient_email).to eq(author.email)
       expect(subject.recipient_name).to eq(author.name)
       expect(subject.user_name).to eq(user.name)
-      expect(subject.movie_name).to eq(movie.title)
+      expect(subject.movie_title).to eq(movie.title)
       expect(subject.action).to eq(action)
     end
   end
 
   describe '.from_json' do
-    let(:json_string) { "{\"recipient_email\":\"author@example.com\",\"recipient_name\":\"Luigi\",\"user_name\":\"Mario\",\"movie_name\":\"Matrix\",\"action\":\"like\"}" }
+    let(:json_string) { "{\"recipient_email\":\"author@example.com\",\"recipient_name\":\"Luigi\",\"user_name\":\"Mario\",\"movie_title\":\"Matrix\",\"action\":\"like\"}" }
     let(:json) { JSON.parse(json_string) }
     subject { described_class.from_json(json) }
 
@@ -35,7 +35,7 @@ RSpec.describe LikeHateEmailParams do
       expect(subject.recipient_email).to eq('author@example.com')
       expect(subject.recipient_name).to eq('Luigi')
       expect(subject.user_name).to eq('Mario')
-      expect(subject.movie_name).to eq('Matrix')
+      expect(subject.movie_title).to eq('Matrix')
       expect(subject.action).to eq(:like)
     end
 
@@ -43,10 +43,10 @@ RSpec.describe LikeHateEmailParams do
       let(:recipient_email) { 'author@example.com' }
       let(:recipient_name) { 'Luigi' }
       let(:user_name) { 'Mario' }
-      let(:movie_name) { 'Matrix' }
+      let(:movie_title) { 'Matrix' }
       let(:action) { :like }
 
-      let(:params) { described_class.new(recipient_email, recipient_name, user_name, movie_name, action) }
+      let(:params) { described_class.new(recipient_email, recipient_name, user_name, movie_title, action) }
 
       subject { JSON.parse(params.to_json) }
 
@@ -54,7 +54,7 @@ RSpec.describe LikeHateEmailParams do
         expect(subject['recipient_email']).to eq('author@example.com')
         expect(subject['recipient_name']).to eq('Luigi')
         expect(subject['user_name']).to eq('Mario')
-        expect(subject['movie_name']).to eq('Matrix')
+        expect(subject['movie_title']).to eq('Matrix')
         expect(subject['action']).to eq('like')
       end
     end
