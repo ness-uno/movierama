@@ -2,20 +2,20 @@ class VotesController < ApplicationController
   def create
     authorize! :vote, _movie
 
-    _voter.vote(_preference)
+    _polling_station.vote(_preference)
     redirect_to root_path, notice: 'Vote cast'
   end
 
   def destroy
     authorize! :vote, _movie
 
-    _voter.unvote
+    _polling_station.unvote
     redirect_to root_path, notice: 'Vote withdrawn'
   end
 
   private
 
-  def _voter
+  def _polling_station
     PollingStation.new(user: current_user, movie: _movie)
   end
 
