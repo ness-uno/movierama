@@ -20,15 +20,15 @@ RSpec.describe Preference do
   end
 
   describe '#like?' do
-    subject { described_class.for(:like) }
+    subject { described_class.for(:like).like? }
 
-    it { expect(subject).to be_like }
+    it { expect(subject).to eq(true) }
   end
 
   describe '#hate?' do
-    subject { described_class.for(:hate) }
+    subject { described_class.for(:hate).hate? }
 
-    it { expect(subject).to be_hate }
+    it { expect(subject).to eq(true) }
   end
 
 end
